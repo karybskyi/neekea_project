@@ -20,7 +20,11 @@
     <title>{{ title }}</title>
   </head>
 
+  {% if title == "Neekea - main page" %}
   <body class="index-body">
+  {% else %}
+  <body>
+  {% endif %}
     <header>
       <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container">
