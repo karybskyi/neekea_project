@@ -92,7 +92,7 @@
                 {% tag_all_categories as categories %}
                 {% for category in categories %}
                     <li>
-                        <a class="dropdown-item text-white" href="{% url "goods:catalog" %}">{{ category.name }}</a>
+                        <a class="dropdown-item text-white" href="{% url "goods:catalog" category.slug %}">{{ category.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
