@@ -13,6 +13,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += [
-            path('catalog/', include('goods.urls', namespace='goods')),
+            path('catalog/', include('goods.urls', namespace='catalog')),
     ]
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
