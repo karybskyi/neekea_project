@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
 
-from neekea.settings import DEBUG
+from neekea import settings
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -9,7 +11,8 @@ urlpatterns = [
     path('', include('main.urls', namespace='main')),
 ]
 
-if DEBUG:
+if settings.DEBUG:
     urlpatterns += [
             path('catalog/', include('goods.urls', namespace='goods')),
     ]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
