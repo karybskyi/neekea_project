@@ -83,7 +83,7 @@
                     <li class="page-item {% if not current_page_goods.has_previous %} disabled {% endif %}">
                         <a class="page-link" href="
                             {% if current_page_goods.has_previous %}
-                                {% url "goods:catalog" slug_url current_page_goods.previous_page_number %}
+                                ?page={{ current_page_goods.previous_page_number }}
                             {% else %}
                                 #
                             {% endif %}">
@@ -94,7 +94,7 @@
                     {% for page_number in current_page_goods.paginator.page_range %}
                         {% if page_number >= current_page_goods.number|add:-2 and page_number <= current_page_goods.number|add:2 %}
                             <li class="page-item {% if current_page_goods.number == page_number %} active {% endif %}">
-                                <a class="page-link" href="{% url "goods:catalog" slug_url page_number %}">{{ page_number }}</a>
+                                <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
                             </li>
                         {% endif %}
                     {% endfor %}
@@ -102,7 +102,7 @@
                     <li class="page-item {% if not current_page_goods.has_next %} disabled {% endif %}">
                         <a class="page-link" href="
                             {% if current_page_goods.has_next %}
-                                {% url "goods:catalog" slug_url current_page_goods.next_page_number %}
+                                ?page={{ current_page_goods.next_page_number }}
                             {% else %}
                                 #
                             {% endif %}">
