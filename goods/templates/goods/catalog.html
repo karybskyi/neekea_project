@@ -8,13 +8,19 @@
         <!-- Filters -->
         <div class="dropdown mb-2">
             <button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">Filters</button>
+            aria-expanded="false">Filters</button>
 
-            <form action="{% url 'goods:catalog' category_slug %}" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
+            <form action="
+            {% if request.GET.q %}
+                {% url 'goods:search' %}
+            {% else %}
+                {% url 'goods:catalog' category_slug %}
+            {% endif %}" 
+            method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
                 <div class="form-check text-white mx-3">
                     <input class="form-check-input" type="checkbox" name="on_sale" id="checkSale" value="on" 
-                    {% if request.GET.on_sale == 'on' %} checked {% endif %} />
-                    {% comment %} <input type="hidden" name="q" value="request.GET.q" /> {% endcomment %}
+                    {% if request.GET.on_sale == 'on' %} checked {% endif %}/>
+                    <input type="hidden" name="q" value="request.GET.q"/>
                     <label class="form-check-label" for="checkSale">On sale</label>
                 </div>
                 <p class="text-white mx-3 mt-3">Sort by price:</p>
