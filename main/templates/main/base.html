@@ -9,6 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    {% if not current_page_goods  %}
+        <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+    {% endif %}
+
     <!-- Стиль footer-a для главной страницы -->
     {% block footer_css %}
 
