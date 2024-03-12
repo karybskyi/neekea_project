@@ -44,6 +44,14 @@
 
         </div>
 
+        {% if request.GET.q %}
+            <h3 class="search-result p-4 mt-4 card rounded custom-shadow">
+                Search results on request "{{ request.GET.q }}"
+            </h3>
+            {% if not current_page_goods %}
+                <h2 class="search-result p-4 mt-4 card rounded custom-shadow">No products found</h2>
+            {% endif %}
+        {% endif %}
         {% for product in current_page_goods  %}
             <!-- Product card -->
             <div class="col-lg-4 col-md-6 p-4">
@@ -55,10 +63,24 @@
                     {% endif %}
                     <div class="card-body">
                         <a href="{% url "goods:product" product.slug %}">
-                            <p class="card-title">{{ product.name }}</p>
+                            <p class="card-title">
+                                {% autoescape off %}
+                                    {% if product.headline %}
+                                        {{ product.headline }}
+                                    {% else %}
+                                        {{ product.name }}
+                                    {% endif %}
+                                {% endautoescape %}
+                            </p>
                         </a>
                         <p class="card-text">
-                            {{ product.description|truncatechars:35 }}
+                            {% autoescape off %}
+                                {% if product.bodyline %}
+                                    {{ product.bodyline|truncatechars:90 }}
+                                {% else %}
+                                    {{ product.description|truncatechars:35 }}
+                                {% endif %}
+                            {% endautoescape %}
                         </p>
                         <p class="product_id">{{ product.display_id }}</p>
                         <div class="d-flex justify-content-between">
@@ -87,43 +109,46 @@
         {% endfor %}
 
         <!-- Pagination -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center my-4">
-                <div class="custom-shadow d-flex">
-                    <li class="page-item {% if not current_page_goods.has_previous %} disabled {% endif %}">
-                        <a class="page-link" href="
-                            {% if current_page_goods.has_previous %}
-                                ?{% augment_request page=current_page_goods.previous_page_number %}
-                            {% else %}
-                                #
-                            {% endif %}">
-                            Previous
-                        </a>
-                    </li>
+        {% if current_page_goods  %}
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center my-4">
+                    <div class="custom-shadow d-flex">
+                        <li class="page-item {% if not current_page_goods.has_previous %} disabled {% endif %}">
+                            <a class="page-link" href="
+                                {% if current_page_goods.has_previous %}
+                                    ?{% augment_request page=current_page_goods.previous_page_number %}
+                                {% else %}
+                                    #
+                                {% endif %}">
+                                Previous
+                            </a>
+                        </li>
 
-                    {% for page_number in current_page_goods.paginator.page_range %}
-                        {% if page_number >= current_page_goods.number|add:-2 and page_number <= current_page_goods.number|add:2 %}
-                            <li class="page-item {% if current_page_goods.number == page_number %} active {% endif %}">
-                                <a class="page-link" href="?{% augment_request page=page_number %}">
-                                    {{ page_number }}
-                                </a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
+                        {% for page_number in current_page_goods.paginator.page_range %}
+                            {% if page_number >= current_page_goods.number|add:-2 and page_number <= current_page_goods.number|add:2 %}
+                                <li class="page-item {% if current_page_goods.number == page_number %} active {% endif %}">
+                                    <a class="page-link" href="?{% augment_request page=page_number %}">
+                                        {{ page_number }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
 
-                    <li class="page-item {% if not current_page_goods.has_next %} disabled {% endif %}">
-                        <a class="page-link" href="
-                            {% if current_page_goods.has_next %}
-                                ?{% augment_request page=current_page_goods.next_page_number %}
-                            {% else %}
-                                #
-                            {% endif %}">
-                            Next
-                        </a>
-                    </li>
-                </div>
-            </ul>
-        </nav>
+                        <li class="page-item {% if not current_page_goods.has_next %} disabled {% endif %}">
+                            <a class="page-link" href="
+                                {% if current_page_goods.has_next %}
+                                    ?{% augment_request page=current_page_goods.next_page_number %}
+                                {% else %}
+                                    #
+                                {% endif %}">
+                                Next
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </nav>
+        {% endif %}
+
     </div>
 {% endblock content %}
 

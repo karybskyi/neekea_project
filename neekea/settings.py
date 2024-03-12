@@ -25,9 +25,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
 
     "debug_toolbar",
-
+    
     "main",
     "goods",
 ]
@@ -40,7 +41,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -68,12 +68,25 @@ WSGI_APPLICATION = "neekea.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# for postgreSQL
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "neekea",
+        "USER": "owner",
+        "PASSWORD": "1234",
+        "HOST": "localhost",
+        "PORT": "5432",
     }
 }
+
+# for sqlite3
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 
 # Password validation
@@ -114,7 +127,7 @@ STATIC_URL = "static/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    ]
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -127,6 +140,6 @@ INTERNAL_IPS = [
     # ...
 ]
 
-MEDIA_URL = 'media/'
+MEDIA_URL = "media/"
 
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / "media"
