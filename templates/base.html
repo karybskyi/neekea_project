@@ -43,7 +43,7 @@
                     <a class="dropdown-item text-white" href="#">Контактная информация</a>
                 </li>
                 <li>
-                    <a class="dropdown-item text-white" href="{% url 'main:about' %}">Про нас</a>
+                    <a class="dropdown-item text-white" href="{% url 'main:about' %}">About us</a>
                 </li>
                 </ul>
             </li>
@@ -51,16 +51,16 @@
                 <a class="nav-link text-white" href="carts/cart.html">Корзина</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="users/login.html">Войти</a>
+                <a class="nav-link text-white" href="{% url 'users:login' %}">Log in</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Мой профиль</a>
+                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My profile</a>
                 <ul class="dropdown-menu">
                 <li>
-                    <a class="dropdown-item text-white" href="carts/cart.html">Корзина</a>
+                    <a class="dropdown-item text-white" href="carts/cart.html">Cart</a>
                 </li>
                 <li>
-                    <a class="dropdown-item text-white" href="users/profile.html">Личный кабинет</a>
+                    <a class="dropdown-item text-white" href="{% url "users:profile" %}">User's profile</a>
                 </li>
                 <li>
                     <a class="dropdown-item text-white" href="{% url "admin:index" %}">Admin page</a>
@@ -69,7 +69,7 @@
                     <hr class="dropdown-divider" />
                 </li>
                 <li>
-                    <a class="dropdown-item text-white" href="#">Выйти</a>
+                    <a class="dropdown-item text-white" href="users:logout">Log Out</a>
                 </li>
                 </ul>
             </li>
