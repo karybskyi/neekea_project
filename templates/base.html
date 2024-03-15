@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
     {% endif %}
 
-    <!-- Стиль footer-a для главной страницы -->
+    <!-- footer's styles -->
     {% block footer_css %}
 
     {% endblock %}
@@ -173,9 +173,9 @@
             <!-- Пустой блок на Ваше усмотрение -->
         </div>
         <div class="col-lg-10">
-            <!-- Контент на странице -->
+            <!-- Page content -->
+            {% include "includes/notifications.html" %}
             {% block content %}
-
             {% endblock %}
         </div>
         </div>
