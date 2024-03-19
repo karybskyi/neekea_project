@@ -50,29 +50,39 @@
             <li class="nav-item">
                 <a class="nav-link text-white" href="carts/cart.html">Корзина</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white" href="{% url 'users:login' %}">Log in</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">My profile</a>
-                <ul class="dropdown-menu">
-                <li>
-                    <a class="dropdown-item text-white" href="carts/cart.html">Cart</a>
+            {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'users:login' %}">Log in</a>
                 </li>
-                <li>
-                    <a class="dropdown-item text-white" href="{% url "users:profile" %}">User's profile</a>
+            {% else %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" 
+                        href="#" 
+                        role="button" data-bs-toggle="dropdown" 
+                        aria-expanded="false">My profile
+                    </a>
+                    <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item text-white" href="carts/cart.html">Cart</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-white" href="{% url "users:profile" %}">User's profile</a>
+                    </li>
+                    {% if user.is_admin or user.is_staff %}
+                        <li>
+                            <a class="dropdown-item text-white" href="{% url "admin:index" %}">Admin page</a>
+                        </li>
+                    {% endif %}
+
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li>
+                        <a class="dropdown-item text-white" href="{% url "users:logout" %}">Log Out</a>
+                    </li>
+                    </ul>
                 </li>
-                <li>
-                    <a class="dropdown-item text-white" href="{% url "admin:index" %}">Admin page</a>
-                </li>
-                <li>
-                    <hr class="dropdown-divider" />
-                </li>
-                <li>
-                    <a class="dropdown-item text-white" href="users:logout">Log Out</a>
-                </li>
-                </ul>
-            </li>
+            {% endif %}
             </ul>
 
             <form class="d-flex" role="search" action="{% url 'goods:search' %}" method="get">
