@@ -1,30 +1,30 @@
-// Когда html документ готов (прорисован)
+// when html document is ready
 $(document).ready(function () {
-    // Берем из разметки элемент по id - оповещения от django
+    // put into variable element with id notification(django notifications)
     var notification = $('#notification');
-    // И через 7 сек. убираем
+    // make it disappear after 7 seconds
     if (notification.length > 0) {
         setTimeout(function () {
             notification.alert('close');
         }, 7000);
     }
 
-    // При клике по значку корзины открываем всплывающее(модальное) окно
+    // show cart modal window after click on cart icon
     $('#modalButton').click(function () {
         $('#exampleModal').appendTo('body');
 
         $('#exampleModal').modal('show');
     });
 
-    // Собыите клик по кнопке закрыть окна корзины
+    // hide cart window after click on button
     $('#exampleModal .btn-close').click(function () {
         $('#exampleModal').modal('hide');
     });
 
-    // Обработчик события радиокнопки выбора способа доставки
+    // shipping method radiobutton
     $("input[name='requires_delivery']").change(function() {
         var selectedValue = $(this).val();
-        // Скрываем или отображаем input ввода адреса доставки
+        // show/hide shipping address input
         if (selectedValue === "1") {
             $("#deliveryAddressField").show();
         } else {

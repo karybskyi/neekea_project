@@ -1,6 +1,6 @@
-// Когда html документ готов (прорисован)
+// when html document is ready(rendered)
 $(document).ready(function () {
-    // берем в переменную элемент разметки с id jq-notification для оповещений от ajax
+    // put into variable dom-element with id jq-notification(ajax notofications)
     var successMessage = $("#jq-notification");
 
     // // Ловим собыитие клика по кнопке добавить в корзину
