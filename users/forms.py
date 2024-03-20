@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
 from users.models import User
 
@@ -32,6 +32,22 @@ class UserRegistrationForm(UserCreationForm):
     password1 = forms.CharField()
     password2 = forms.CharField()
 
+class ProfileForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = {
+            "image",
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+        }
+
+    image = forms.ImageField(required=False)
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    username = forms.CharField()
+    email = forms.CharField()
 
 # option with greater implementation backend than
 # frontend part in forms management:
@@ -121,6 +137,60 @@ class UserRegistrationForm(UserCreationForm):
 #             attrs={
 #                 "class": "form-control",
 #                 "placeholder": "Repeat your password",
+#             }
+#         )
+#     )
+    
+# class ProfileForm(UserChangeForm):
+#     class Meta:
+#         model = User
+#         fields = {
+#             "image",
+#             "first_name",
+#             "last_name",
+#             "username",
+#             "email",
+#         }
+
+#     image = forms.ImageField(
+#         widget=forms.FileInput(
+#             attrs={"class": "form-control mt-3"}
+#         ), 
+#         required=False
+#     )
+    
+#     first_name = forms.CharField(
+#         widget=forms.TextInput(
+#             attrs={
+#                 "class": "form-control",
+#                 "placeholder": "Enter your first name",
+#             }
+#         )
+#     )
+
+#     last_name = forms.CharField(
+#         widget=forms.TextInput(
+#             attrs={
+#                 "class": "form-control",
+#                 "placeholder": "Enter your last name",
+#             }
+#         )
+#     )
+
+#     username = forms.CharField(
+#         widget=forms.TextInput(
+#             attrs={
+#                 "class": "form-control",
+#                 "placeholder": "Enter your username",
+#             }
+#         )
+#     )
+
+#     email = forms.CharField(
+#         widget=forms.TextInput(
+#             attrs={
+#                 "class": "form-control",
+#                 "placeholder": "Enter your email *youremail@example.com",
 #             }
 #         )
 #     )
