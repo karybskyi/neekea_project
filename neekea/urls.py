@@ -10,6 +10,7 @@ urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path('', include('main.urls', namespace='main')),
     path('user/', include('users.urls', namespace='users')),
+    path('cart/', include('carts.urls', namespace='carts')),
 
 
 ]
