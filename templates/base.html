@@ -12,11 +12,8 @@
     {% if not current_page_goods  %}
         <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
     {% endif %}
-
     <!-- footer's styles -->
-    {% block footer_css %}
-
-    {% endblock %}
+    {% block footer_css %}{% endblock %}
     <!-- Favicons for different platforms -->
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}" />
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}" />
@@ -113,32 +110,12 @@
                 {% endfor %}
             </ul>
         </div>
-        <!-- Cart icon to call modal window -->
-        <div>
-            <button type="button" class="btn btn-dark btn-secondary d-flex" id="modalButton" aria-expanded="false">
-            <img class="mx-1" src="{% static 'icons/basket2-fill.svg' %}" alt="Catalog Icon" width="24" height="24" />
-            <span id="goods-in-cart-count">0</span>
-            </button>
-        </div>
-        <!-- Cart modal window -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                <h3 class="text-center mb-4">Корзина</h3>
-                <div class="container" id="cart-items-container">
-                    <!-- Cart page markup -->
-                    {% include "carts/includes/included_cart.html" %}
-                    <!-- End of cart page markup -->
-                </div>
-                <a class="btn btn-dark" href="orders/create_order.html">Place an order</a>
-                </div>
-            </div>
-            </div>
-        </div>
+        <!-- Cart button to call modal window -->
+        {% block cart_modal %}
+            {% if '/user/users-cart/' not in request.path and '/user/profile/' not in request.path %}
+                {% include "includes/cart_modal.html" %}
+            {% endif %}
+        {% endblock cart_modal %}
         <!-- End of cart modal window -->
         </div>
     </div>

@@ -3,6 +3,7 @@ from django.contrib import auth, messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
 
@@ -16,10 +17,14 @@ def login(request):
             user = auth.authenticate(username=username, password=password)
             if user:
                 auth.login(request, user)
-                messages.success(request, f"You've been logged in as {username}")
+                messages.success(
+                    request,
+                    mark_safe(f"You're logged in as <strong>{username}</strong>"),
+                )
 
-                if request.POST.get('next'):
-                    return HttpResponseRedirect(request.POST.get('nextPOST'))
+                redirect_page = request.POST.get("next", None)
+                if redirect_page and redirect_page != reverse("user:logout"):
+                    return HttpResponseRedirect(request.POST.get("nextPOST"))
 
                 return HttpResponseRedirect(reverse("main:index"))
     else:
@@ -34,7 +39,10 @@ def login(request):
 
 @login_required
 def logout(request):
-    messages.success(request, f"{request.user.username}, you've been logged out")
+    messages.success(
+        request,
+        mark_safe(f"<strong>{request.user.username}</strong>, you've been logged out"),
+    )
     auth.logout(request)
     return redirect(reverse("users:login"))
 
@@ -46,7 +54,13 @@ def registration(request):
             form.save()
             user = form.instance
             auth.login(request, user)
-            messages.success(request, f"You've been registered and logged in as {user.username}")
+            messages.success(
+                request,
+                mark_safe(
+                    f"You're registered and logged in as <strong>{user.username}</strong>"
+                ),
+            )
+
             return HttpResponseRedirect(reverse("main:index"))
     else:
         form = UserRegistrationForm()
@@ -61,7 +75,9 @@ def registration(request):
 @login_required
 def profile(request):
     if request.method == "POST":
-        form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
+        form = ProfileForm(
+            data=request.POST, instance=request.user, files=request.FILES
+        )
         if form.is_valid():
             form.save()
             messages.success(request, "Your profile data has been updated")
@@ -75,5 +91,6 @@ def profile(request):
     }
     return render(request, "users/profile.html", context)
 
+
 def users_cart(request):
-    return render(request, 'users/users_cart.html')
+    return render(request, "users/users_cart.html")
