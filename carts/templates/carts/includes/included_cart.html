@@ -15,14 +15,14 @@
                     <div class="input-group">
                         <span class="input-group-btn">
                             <button type="button" 
-                                class="btn btn-dark btn-sm decrement" 
-                                data-cart-id="" data-cart-change-url="">-</button>
+                            class="btn btn-dark btn-sm decrement" 
+                            data-cart-id="" data-cart-change-url="">-</button>
                         </span>
                         <input type="text" class="form-control number" value="{{ cart.quantity }}" readonly />
                         <span class="input-group-btn">
                             <button type="button" 
-                                class="btn btn-dark btn-sm increment" 
-                                data-cart-id="" data-cart-change-url="">+</button>
+                            class="btn btn-dark btn-sm increment" 
+                            data-cart-id="" data-cart-change-url="">+</button>
                         </span>
                     </div>
                 </div>
@@ -33,9 +33,11 @@
                     <strong>${{ cart.products_price }}</strong>
                 </div>
                 <div class="col p-0">
-                    <a href="{% url "carts:cart_remove" %}" class="remove-from-cart" data-cart-id="">
+                    <a href="{% url "carts:cart_remove" %}" class="remove-from-cart" 
+                    data-cart-id="{{ cart.id }}">
+                        {% csrf_token %}
                         <img class="mx-1" src="{% static 'icons/trash3-fill.svg' %}" 
-                            alt="Catalog Icon" width="16" height="16"/>
+                        alt="Catalog Icon" width="16" height="16"/>
                     </a>
                 </div>
             </div>
