@@ -13,14 +13,17 @@ def cart_add(request):
     product = Products.objects.get(id=product_id)
 
     if request.user.is_authenticated:
-        carts = Cart.objects.filter(user=request.user, product=product)
-
-        if carts.exists():
+        filter_condition = {"user": request.user}
+    else:
+        filter_condition = {"session_key": request.session.session_key}
+    
+    carts = Cart.objects.filter(product=product, **filter_condition)
+    if carts.exists():
             cart = carts.first()
             cart.quantity += 1
             cart.save()
-        else:
-            Cart.objects.create(user=request.user, product=product, quantity=1)
+    else:
+        Cart.objects.create(product=product, quantity=1, **filter_condition)
 
     user_cart = get_user_carts(request)
     cart_items_html = render_to_string(
@@ -69,7 +72,8 @@ def cart_remove(request):
 
     user_cart = get_user_carts(request)
     cart_items_html = render_to_string(
-        "carts/includes/included_cart.html", {"carts": user_cart}, request=request)
+        "carts/includes/included_cart.html", {"carts": user_cart}, request=request
+    )
 
     response_data = {
         "message": "Item has been removed from your cart",
