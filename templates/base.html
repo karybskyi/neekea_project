@@ -112,7 +112,7 @@
         </div>
         <!-- Cart button to call modal window -->
         {% block cart_modal %}
-            {% if '/user/users-cart/' not in request.path and '/user/profile/' not in request.path %}
+            {% if not hide_modal_cart %}
                 {% include "includes/cart_modal.html" %}
             {% endif %}
         {% endblock cart_modal %}
@@ -123,20 +123,20 @@
     <div class="container">
         <div class="row mt-1">
         <div class="col-lg-2">
-            <!-- Пустой блок на Ваше усмотрение -->
+            <!-- Empty block for your consideration -->
         </div>
         <div class="col-lg-10">
             <!-- Page content -->
             {% include "includes/notifications.html" %}
             {% block content %}
-            {% endblock %}
+            {% endblock content %}
         </div>
         </div>
     </div>
     </section>
     {% block footer %}
 
-    {% endblock %}
+    {% endblock footer %}
     <script src="{% static 'js/jquery/jquery-3.7.0.min.js' %}"></script>
     <script src="{% static 'js/jquery-ajax.js' %}"></script>
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>

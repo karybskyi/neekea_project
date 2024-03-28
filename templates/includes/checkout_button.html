@@ -6,8 +6,7 @@
 
 {% if carts %}
 <div>
-    
-    <a class="btn btn-dark" href="../orders/create_order.html">
+    <a class="btn btn-dark" href="{% url "orders:checkout" %}">
         Checkout
     </a>
 </div>

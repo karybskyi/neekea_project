@@ -102,9 +102,10 @@ def profile(request):
     context = {
         "title": "Neekea - User Profile",
         "form": form,
+        "hide_modal_cart": True,
     }
     return render(request, "users/profile.html", context)
 
 
 def users_cart(request):
-    return render(request, "users/users_cart.html")
+    return render(request, "users/users_cart.html", {"hide_modal_cart": True,})
