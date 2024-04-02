@@ -3,6 +3,13 @@ from goods.models import Products
 from users.models import User
 
 
+ORDER_STATUS_CHOICES = [
+        ('in_process_paid', 'Paid'),
+        ('in_process', 'In Process'),
+        ('сompleted ', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
 class OrderItemQueryset(models.QuerySet):
 
     def total_price(self):
@@ -34,7 +41,10 @@ class Order(models.Model):
     payment_by_card = models.BooleanField(default=False, verbose_name="Pay by card")
     is_paid = models.BooleanField(default=False, verbose_name="Paid already")
     status = models.CharField(
-        max_length=50, default="In process", verbose_name="Order status"
+        max_length=50, 
+        choices=ORDER_STATUS_CHOICES, 
+        default="in_process", 
+        verbose_name="Order status"
     )
 
     class Meta:
@@ -43,9 +53,10 @@ class Order(models.Model):
         verbose_name_plural = "Orders"
 
     def __str__(self) -> str:
-        return (
-            f"Order # {self.pk} | Customer {self.user.first_name} {self.user.last_name}"
-        )
+        if self.user:
+            return f"Order # {self.pk} | Customer {self.user.first_name} {self.user.last_name}"
+        else:
+            return f"Order # {self.pk} | Customer (Unknown)"
 
 
 class OrderedItem(models.Model):
