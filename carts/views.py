@@ -19,9 +19,9 @@ def cart_add(request):
     
     carts = Cart.objects.filter(product=product, **filter_condition)
     if carts.exists():
-            cart = carts.first()
-            cart.quantity += 1
-            cart.save()
+        cart = carts.first()
+        cart.quantity += 1
+        cart.save()
     else:
         Cart.objects.create(product=product, quantity=1, **filter_condition)
 

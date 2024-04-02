@@ -6,9 +6,19 @@ class CheckoutForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
     phone_number = forms.CharField()
-    delivery_required = forms.ChoiceField()
+    delivery_required = forms.ChoiceField(
+        choices=[
+            ("0", False),
+            ("1", True),
+            ],
+        )
     shipping_address = forms.CharField(required=False)
-    payment_by_card = forms.ChoiceField()
+    payment_by_card = forms.ChoiceField(
+        choices=[
+            ("0", False),
+            ("1", True),
+            ],
+        )
 
     # fist_name = forms.ChoiceField(
     #     widget=forms.TextInput(
