@@ -1,3 +1,4 @@
+import re
 from django import forms
 
 
@@ -19,6 +20,18 @@ class CheckoutForm(forms.Form):
             ("1", True),
             ],
         )
+    
+    def clean_phone_number(self):
+        data = self.cleaned_data['phone_number']
+
+        if not data.isdigit():
+            raise forms.ValidationError("Phone number should contain digits only!")
+        
+        pattern = re.compile(r'^\d{10}$')
+        if not pattern.match(data):
+            raise forms.ValidationError("Phone number should consist of 10 digits (those that go after '+38')")
+        
+        return data
 
     # fist_name = forms.ChoiceField(
     #     widget=forms.TextInput(
