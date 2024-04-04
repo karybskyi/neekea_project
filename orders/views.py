@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.forms import ValidationError
 from django.shortcuts import redirect, render
@@ -8,6 +9,7 @@ from orders.forms import CheckoutForm
 from orders.models import Order, OrderedItem
 
 
+@login_required
 def checkout(request):
     if request.method == "POST":
         form = CheckoutForm(data=request.POST)
@@ -67,5 +69,6 @@ def checkout(request):
         "title": "Neekea - Checkout",
         "form": form,
         "hide_modal_cart": True,
+        "order": True
     }
     return render(request, "orders/checkout.html", context)

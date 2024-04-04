@@ -1,11 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth, messages
+from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from carts.models import Cart
+from orders.models import Order, OrderedItem
 from users.forms import ProfileForm, UserLoginForm, UserRegistrationForm
 
 
@@ -16,9 +18,9 @@ def login(request):
             username = request.POST["username"]
             password = request.POST["password"]
             user = auth.authenticate(username=username, password=password)
-            
+
             session_key = request.session.session_key
-            
+
             if user:
                 auth.login(request, user)
                 messages.success(
@@ -99,13 +101,31 @@ def profile(request):
     else:
         form = ProfileForm(instance=request.user)
 
+    orders = (
+        Order.objects.filter(user=request.user)
+        .prefetch_related(
+            Prefetch(
+                "ordered_items",
+                queryset=OrderedItem.objects.select_related("product"),
+            )
+        )
+        .order_by("-id")
+    )
+
     context = {
         "title": "Neekea - User Profile",
         "form": form,
         "hide_modal_cart": True,
+        "orders": orders,
     }
     return render(request, "users/profile.html", context)
 
 
 def users_cart(request):
-    return render(request, "users/users_cart.html", {"hide_modal_cart": True,})
+    return render(
+        request,
+        "users/users_cart.html",
+        {
+            "hide_modal_cart": True,
+        },
+    )

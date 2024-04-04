@@ -10,7 +10,13 @@ ORDER_STATUS_CHOICES = [
         ('cancelled', 'Cancelled'),
     ]
 
-class OrderItemQueryset(models.QuerySet):
+class OrderQueryset(models.QuerySet):
+
+    def total_price(self):
+        return sum(order.total_order_price() for order in self)
+
+
+class OrderedItemQueryset(models.QuerySet):
 
     def total_price(self):
         return sum(cart.products_price() for cart in self)
@@ -57,10 +63,13 @@ class Order(models.Model):
             return f"Order # {self.pk} | Customer {self.user.first_name} {self.user.last_name}"
         else:
             return f"Order # {self.pk} | Customer (Unknown)"
+        
+    def total_order_price(self):
+        return sum(item.products_price() for item in self.ordered_items.all())
 
 
 class OrderedItem(models.Model):
-    order = models.ForeignKey(to=Order, on_delete=models.CASCADE, verbose_name="Order")
+    order = models.ForeignKey(to=Order, on_delete=models.CASCADE, verbose_name="Order", related_name="ordered_items")
     product = models.ForeignKey(
         to=Products,
         on_delete=models.SET_DEFAULT,
@@ -68,7 +77,7 @@ class OrderedItem(models.Model):
         verbose_name="Item",
         default=None,
     )
-    # backup item's title in case of deleting product from db and settin it to Null
+    # backup item's title in case of deleting product from db and setting it to Null
     name = models.CharField(max_length=150, verbose_name="Item's title")
     price = models.DecimalField(
         max_digits=7, decimal_places=2, verbose_name="Final price"
@@ -83,10 +92,10 @@ class OrderedItem(models.Model):
         verbose_name = "Ordered item"
         verbose_name_plural = "Ordered items"
 
-    objects = OrderItemQueryset.as_manager()
+    objects = OrderedItemQueryset.as_manager()
 
     def products_price(self):
-        return round(self.product.price() * self.quantity)
+        return round(self.product.sell_price() * self.quantity, 2)
 
     def __str__(self) -> str:
         return f"Item {self.name} | Order # {self.order.pk}"
