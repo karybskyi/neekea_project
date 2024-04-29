@@ -1,7 +1,7 @@
 **Site features**
 - user registration and authorization
 - order placing
-- cart editing
+- cart editing with AJAX 
 - admin CRUD actions on goods, users and orders
 - full-text search
   
